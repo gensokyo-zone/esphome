@@ -2,6 +2,9 @@ substitutions:
   node_name: bedroom-friend
   friendly_name: Bedroom
   scd41_suffix: " 2"
+  display_lambda: |-
+    ${display_lambda_pms5003}
+    ${display_lambda_scd41}
 
 packages:
   d1_mini: !include esp8266-d1-mini.yaml
@@ -10,4 +13,5 @@ packages:
   pms5003: !include pms5003.yaml
   i2c: !include esp8266-i2c.yaml
   uart: !include esp8266-uart.yaml
+  ssd1306: !include ssd1306.yaml
   sensorfriend: !include sensorfriend.yaml

@@ -1,6 +1,9 @@
 substitutions:
   node_name: outdoor-friend
   friendly_name: Outdoor
+  display_lambda: |-
+    ${display_lambda_ccs811}
+    ${display_lambda_dht22}
 
 packages:
   d1_mini: !include esp8266-d1-mini.yaml
@@ -8,10 +11,5 @@ packages:
   ccs811: !include ccs811.yaml
   i2c: !include esp8266-i2c.yaml
   uart: !include esp8266-uart.yaml
-
-display:
-  - platform: ssd1306_i2c
-    model: "SSD1306 128x64"
-    id: bedroom_display
-    address: 0x3C
-    contrast: 50%
+  ssd1306: !include ssd1306.yaml
+  sensorfriend: !include sensorfriend.yaml

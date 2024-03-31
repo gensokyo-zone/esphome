@@ -1,3 +1,6 @@
+substitutions:
+  api_reboot_timeout: 30min
+
 packages:
   esp01_1m: !include esp8266-esp01_1m.yaml
 

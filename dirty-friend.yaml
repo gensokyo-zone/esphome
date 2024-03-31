@@ -38,3 +38,4 @@ packages:
   esp32_wroom32c4: !include esp32-wroom32-devkitc-v4.yaml
   sen55: !include sen55.yaml
   esp32-i2c: !include esp32-i2c.yaml
+  sensorfriend: !include sensorfriend.yaml

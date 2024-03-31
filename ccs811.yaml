@@ -2,7 +2,9 @@ sensor:
   - platform: ccs811
     eco2:
       name: ${friendly_name} eCO2
+      id: ccs811_eco2
     tvoc:
       name: ${friendly_name} TVOC
+      id: ccs811_tvoc
     address: 0x5A
     update_interval: 1s

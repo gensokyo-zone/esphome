@@ -13,3 +13,4 @@ sensor:
       id: scd41_temp
     humidity:
       name: ${friendly_name} Humidity${scd41_suffix}
+      id: scd41_hum

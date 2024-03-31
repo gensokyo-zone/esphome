@@ -1,22 +1,39 @@
-font:
-  - file: ${fonts_root}/cozette.bdf
-    id: cozette
-
-display:
-  - platform: ssd1306_i2c
-    model: SSD1306 128x64
-    id: ssd1306_display
-    address: 0x3C
-    contrast: 50%
-    lambda: |-
-      if (id(pms5003_pm10).has_state()) {
-        it.printf(128, 0, id(cozette), TextAlign::TOP_RIGHT , "1 %.0f", id(pms5003_pm1).state);
-        it.printf(128, 32, id(cozette), TextAlign::CENTER_RIGHT , "2.5 %.0f", id(pms5003_pm25).state);
-        it.printf(128, 64, id(cozette), TextAlign::BOTTOM_RIGHT , "10 %.0f", id(pms5003_pm10).state);
-      }
-      if (id(scd41_temp).has_state()) {
-        it.printf(0, 0, id(cozette), TextAlign::TOP_LEFT , "%.1f°", id(dht22_temp).state);
-      }
-      if (id(scd41_co2).has_state()) {
-        it.printf(0, 64, id(cozette), TextAlign::BOTTOM_LEFT , "%.0fppm", id(scd41_co2).state);
-      }
+substitutions:
+  api_reboot_timeout: 7min
+  display_lambda_ccs811: |-
+    if (id(ccs811_eco2).has_state()) {
+      it.printf(128, 0, id(cozette), TextAlign::TOP_RIGHT, "%.0f ppm", id(ccs811_eco2).state);
+    }
+    if (id(ccs811_tvoc).has_state()) {
+      it.printf(128, 32, id(cozette), TextAlign::CENTER_RIGHT, "%.0f ppb", id(ccs811_tvoc).state);
+    }
+  display_lambda_pms5003: |-
+    if (id(pms5003_pm10).has_state()) {
+      int lineheight = 10;
+      it.printf(128, 0, id(cozette), TextAlign::TOP_RIGHT, "PM1 %2.1f ug/m3", id(pms5003_pm1).state);
+      it.printf(128, 12+5+lineheight/2, id(cozette), TextAlign::CENTER_RIGHT, "PM2.5");
+      it.printf(128, 12+5+lineheight/2+lineheight, id(cozette), TextAlign::CENTER_RIGHT, "%2.1f ug/m3", id(pms5003_pm25).state);
+      it.printf(128, 64-lineheight, id(cozette), TextAlign::BOTTOM_RIGHT, "PM10");
+      it.printf(128, 64, id(cozette), TextAlign::BOTTOM_RIGHT, "%2.1f ug/m3", id(pms5003_pm10).state);
+    }
+  display_lambda_dht22: |-
+    if (id(dht22_temp).has_state()) {
+      it.printf(0, 0, id(cozette), TextAlign::TOP_LEFT, "%.1f°", id(dht22_temp).state);
+    }
+    if (id(dht22_hum).has_state()) {
+      it.printf(0, 32, id(cozette), TextAlign::CENTER_LEFT, "%.1f%%", id(dht22_hum).state);
+    }
+  display_lambda_scd41: |-
+    if (id(scd41_temp).has_state()) {
+      it.printf(0, 0, id(cozette), TextAlign::TOP_LEFT, "%.1f°", id(scd41_temp).state);
+    } else if (id(dht22_temp).has_state()) {
+      it.printf(0, 0, id(cozette), TextAlign::TOP_LEFT, "%.1f°", id(dht22_temp).state);
+    }
+    if (id(scd41_hum).has_state()) {
+      it.printf(0, 32, id(cozette), TextAlign::CENTER_LEFT, "%.1f%%", id(scd41_hum).state);
+    } else if (id(dht22_hum).has_state()) {
+      it.printf(0, 32, id(cozette), TextAlign::TOP_LEFT, "%.1f%%", id(dht22_hum).state);
+    }
+    if (id(scd41_co2).has_state()) {
+      it.printf(0, 64, id(cozette), TextAlign::BOTTOM_LEFT, "%.0f ppm", id(scd41_co2).state);
+    }

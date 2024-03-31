@@ -1,5 +1,6 @@
 substitutions:
   log_level: DEBUG
+  api_reboot_timeout: 15min
   kitchen_wifi_prio: "5"
   closet_wifi_prio: "2"
 
@@ -24,7 +25,7 @@ ota:
   safe_mode: true
 
 api:
-  reboot_timeout: 8min
+  reboot_timeout: ${api_reboot_timeout}
   encryption:
     key: !secret api_key
 

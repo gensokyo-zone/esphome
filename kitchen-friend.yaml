@@ -10,3 +10,4 @@ packages:
   sen55: !include sen55.yaml
   i2c: !include esp8266-i2c.yaml
   uart: !include esp8266-uart.yaml
+  sensorfriend: !include sensorfriend.yaml
