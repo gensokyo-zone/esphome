@@ -1,9 +1,17 @@
-all: s31-000 s31-001 s31-002 s31-003 s31-004 swb1-001 fornuftig-001 fornuftig-002 outdoor-friend bedroom-friend kitchen-friend dirty-friend kittylamp-001
+ACTIVE_NODES := s31-000 s31-001 swb1-001 fornuftig-001 fornuftig-002 outdoor-friend bedroom-friend kitchen-friend kittylamp-001
+ALL_NODES := $(ACTIVE_NODES) s31-002 s31-003 s31-004 dirty-friend
+
+all: $(ALL_NODES)
+
+upload: $(ACTIVE_NODES)
+	# esphome upload $(patsubst %,%.yaml,$^)
+	for node in $^; do esphome upload $$node.yaml; done
 
 secrets.yaml: secrets.sops.yaml
 	sops -d $< > $@
 
 clean:
+	esphome clean $(patsubst %,%.yaml,$(ALL_NODES)) || true
 	rm -r ./$(BUILD)
 
 BUILD := .esphome/build
@@ -55,5 +63,5 @@ $(BUILD)/bedroom-friend/firmware.elf: $(DEPS_SENSORFRIEND) dht22.yaml scd41.yaml
 $(BUILD)/kitchen-friend/firmware.elf: $(DEPS_SENSORFRIEND) sen55.yaml scd41.yaml
 $(BUILD)/dirty-friend/firmware.elf: $(DEPS_SENSORFRIEND32) sen55.yaml
 
-.PHONY: all clean
+.PHONY: all clean upload
 .DELETE_ON_ERROR:
