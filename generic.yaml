@@ -24,6 +24,7 @@ ota:
   safe_mode: true
 
 api:
+  reboot_timeout: 8min
   encryption:
     key: !secret api_key
 
