@@ -2,6 +2,7 @@ substitutions:
   node_name: bedroom-friend
   friendly_name: Bedroom
   scd41_suffix: " 2"
+  display_rotation: "180"
   display_lambda: |-
     ${display_lambda_pms5003}
     ${display_lambda_scd41}

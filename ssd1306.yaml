@@ -1,5 +1,6 @@
 substitutions:
   display_lambda: ""
+  display_rotation: "0"
 
 font:
   - file: ${fonts_root}/cozette.bdf
@@ -11,5 +12,6 @@ display:
     id: ssd1306_display
     address: 0x3C
     contrast: 50%
+    rotation: ${display_rotation}
     lambda: |-
       ${display_lambda}
