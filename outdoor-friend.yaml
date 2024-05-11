@@ -1,6 +1,7 @@
 substitutions:
   node_name: outdoor-friend
   friendly_name: Outdoor
+  display_rotation: "180"
   display_lambda: |-
     ${display_lambda_ccs811}
     ${display_lambda_dht22}
