@@ -26,17 +26,6 @@
           ];
         };
         overrides'attrs = old: {
-          # XXX: upstream nixpkgs esphome is currently broken due to pillow version mismatch...
-          # see: https://github.com/NixOS/nixpkgs/pull/311160
-          pillowVersion = python3Packages.pillow.version;
-          postPatch = ''
-            cat requirements_optional.txt >> requirements.txt
-            substituteInPlace esphome/components/font/__init__.py \
-              --replace-fail "10.2.0" "$pillowVersion"
-          '' + old.postPatch or "";
-          propagatedBuildInputs = with python.pkgs; old.propagatedBuildInputs ++ [
-            cairosvg
-          ];
         };
         # esphome overrides `packageOverrides` in a dumb way .-.
         overrides = {
@@ -46,7 +35,10 @@
             };
           };
         };
-      in (nixpkgs'esphome.override overrides).overridePythonAttrs overrides'attrs;
+        needsOverrides = false;
+      in if needsOverrides
+        then (nixpkgs'esphome.override overrides).overridePythonAttrs overrides'attrs
+        else nixpkgs'esphome;
       flash-espresense = { writeShellScriptBin, esptool, jq, curl }: let
         bins = [ esptool jq curl ];
       in writeShellScriptBin "flash-espresense" ''
