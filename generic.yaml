@@ -21,8 +21,10 @@ wifi:
       priority: ${kitchen_wifi_prio}
 
 ota:
+- platform: esphome
   password: !secret ota_password
-  safe_mode: true
+
+safe_mode:
 
 api:
   reboot_timeout: ${api_reboot_timeout}
@@ -32,6 +34,7 @@ api:
 time:
   - platform: homeassistant
     id: esptime
+    timezone: America/Vancouver
 
 logger:
   level: ${log_level}
